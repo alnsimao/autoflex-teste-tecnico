@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 
 @Table(name = "products")
-public class Products {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
