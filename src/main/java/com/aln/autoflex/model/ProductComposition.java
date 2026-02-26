@@ -14,20 +14,19 @@ import java.math.BigDecimal;
 @Table(name = "product_compositions")
 public class ProductComposition {
 
-    @EmbeddedId
-    private ProductCompositionKey id = new ProductCompositionKey();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("productId")
-    @JoinColumn(name = "product_id")
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     @ManyToOne
-    @MapsId("rawMaterialId")
-    @JoinColumn(name = "raw_material_id")
+    @JoinColumn(name = "raw_material_id", nullable = false)
     private RawMaterial rawMaterial;
-
 
     @Column(name = "quantity_needed", nullable = false, precision = 15, scale = 4)
     private BigDecimal quantityNeeded;
 }
+

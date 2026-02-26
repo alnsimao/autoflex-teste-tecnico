@@ -36,6 +36,11 @@ public class RawMaterialService {
         RawMaterial updatedRawMaterial = rawMaterialRepository.save(rawMaterial);
         return toDTO(updatedRawMaterial);
     }
+    @Transactional
+    public void deleteRawMaterial(Long id) {
+        RawMaterial rawMaterial = rawMaterialRepository.findById(id).orElseThrow(() -> new RuntimeException("Raw Material not found"));
+        rawMaterialRepository.delete(rawMaterial);
+    }
 
     public RawMaterialResponseDTO findRawMaterialById(Long id) {
         Optional<RawMaterial> rawMaterial = rawMaterialRepository.findById(id);
