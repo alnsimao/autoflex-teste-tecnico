@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 
 
 @Service
@@ -27,6 +28,25 @@ public class RawMaterialService {
 
     }
 
+    @Transactional
+    public RawMaterialResponseDTO updateRawMaterial(Long id,RawMaterialRequestDTO rawMaterialRequestDTO) {
+        RawMaterial rawMaterial = rawMaterialRepository.findById(id).orElseThrow(() -> new RuntimeException("Raw Material not found"));
+        rawMaterial.setName(rawMaterialRequestDTO.name());
+        rawMaterial.setStockQuantity(rawMaterialRequestDTO.stockQuantity());
+        RawMaterial updatedRawMaterial = rawMaterialRepository.save(rawMaterial);
+        return toDTO(updatedRawMaterial);
+    }
+
+    public RawMaterialResponseDTO findRawMaterialById(Long id) {
+        Optional<RawMaterial> rawMaterial = rawMaterialRepository.findById(id);
+        if (rawMaterial.isPresent()) {
+            return toDTO(rawMaterial.get());
+        } else {
+            throw new RuntimeException("Raw Material not found");
+        }
+
+
+    }
     private RawMaterialResponseDTO toDTO(RawMaterial rawMaterial) {
         return new RawMaterialResponseDTO(
                 rawMaterial.getId(),
