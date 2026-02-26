@@ -2,6 +2,7 @@ package com.aln.autoflex.service;
 
 import com.aln.autoflex.dto.ProductRequestDTO;
 import com.aln.autoflex.dto.ProductResponseDTO;
+import com.aln.autoflex.exceptions.ResourceNotFoundException;
 import com.aln.autoflex.model.Product;
 import com.aln.autoflex.repository.ProductRepository;
 import jakarta.transaction.Transactional;
@@ -9,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ public class ProductService {
     }
     @Transactional
     public ProductResponseDTO updateProduct(Long id, ProductRequestDTO productRequestDTO) {
-        Product product = productRepository.findById(id).orElseThrow(()-> new RuntimeException("Product Not Found"));
+        Product product = productRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Product Not Found"));
         product.setName(productRequestDTO.name());
         product.setPrice(productRequestDTO.price());
 
@@ -37,12 +38,12 @@ public class ProductService {
 
     @Transactional
     public void deleteProduct(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(()-> new RuntimeException("Product Not Found"));
+        Product product = productRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Product Not Found"));
         productRepository.delete(product);
     }
     @Transactional
     public ProductResponseDTO getProduct(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(()-> new RuntimeException("Product Not Found"));
+        Product product = productRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Product Not Found"));
         return toDTO(product);
     }
     @Transactional
