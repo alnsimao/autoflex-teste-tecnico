@@ -33,8 +33,7 @@ public class RawMaterialService {
         RawMaterial rawMaterial = rawMaterialRepository.findById(id).orElseThrow(() -> new RuntimeException("Raw Material not found"));
         rawMaterial.setName(rawMaterialRequestDTO.name());
         rawMaterial.setStockQuantity(rawMaterialRequestDTO.stockQuantity());
-        RawMaterial updatedRawMaterial = rawMaterialRepository.save(rawMaterial);
-        return toDTO(updatedRawMaterial);
+        return toDTO(rawMaterial);
     }
     @Transactional
     public void deleteRawMaterial(Long id) {
@@ -43,14 +42,8 @@ public class RawMaterialService {
     }
 
     public RawMaterialResponseDTO findRawMaterialById(Long id) {
-        Optional<RawMaterial> rawMaterial = rawMaterialRepository.findById(id);
-        if (rawMaterial.isPresent()) {
-            return toDTO(rawMaterial.get());
-        } else {
-            throw new RuntimeException("Raw Material not found");
-        }
-
-
+        RawMaterial material = rawMaterialRepository.findById(id).orElseThrow(() -> new RuntimeException("Raw Material not found"));
+        return toDTO(material);
     }
     private RawMaterialResponseDTO toDTO(RawMaterial rawMaterial) {
         return new RawMaterialResponseDTO(
