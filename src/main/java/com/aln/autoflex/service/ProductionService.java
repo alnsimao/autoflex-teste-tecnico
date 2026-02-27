@@ -3,6 +3,7 @@ package com.aln.autoflex.service;
 
 import com.aln.autoflex.dto.ProductCompositionRequestDTO;
 import com.aln.autoflex.dto.ProductCompositionResponseDTO;
+import com.aln.autoflex.dto.ProductionDTO;
 import com.aln.autoflex.exceptions.ResourceNotFoundException;
 import com.aln.autoflex.model.Product;
 import com.aln.autoflex.model.ProductComposition;
@@ -12,8 +13,11 @@ import com.aln.autoflex.repository.ProductRepository;
 import com.aln.autoflex.repository.RawMaterialRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Service
@@ -35,6 +39,10 @@ public class ProductionService {
                         (
                                 ()-> new ResourceNotFoundException("Material not found")
                         );
+        if(productCompositionRequestDTO.quantityNeeded()
+                .compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Quantity needed must be greater than 0");
+        }
 
         ProductComposition productComposition = new ProductComposition();
         productComposition.setProduct(product);
@@ -51,7 +59,7 @@ public class ProductionService {
                 (
                         ()-> new ResourceNotFoundException("Product composition not found")
                 );
-        Product product = productRepository.findById(id).orElseThrow
+        Product product = productRepository.findById(productCompositionRequestDTO.productId()).orElseThrow
                 (
                         ()-> new ResourceNotFoundException("Product not found")
                 );
@@ -59,6 +67,10 @@ public class ProductionService {
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Material not found")
                 );
+        if(productCompositionRequestDTO.quantityNeeded()
+        .compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Quantity needed must be greater than 0");
+        }
         productComposition.setProduct(product);
         productComposition.setRawMaterial(rawMaterial);
         productComposition.setQuantityNeeded(productCompositionRequestDTO.quantityNeeded());
@@ -90,6 +102,43 @@ public class ProductionService {
                 .toList();
     }
 
+    public List<ProductionDTO> calculateProductionAvaliable(){
+        List<Product> products = productRepository.findAll();
+        return products.stream()
+                .map(this::calculateProduct)
+                .toList();
+
+    }
+
+    private ProductionDTO calculateProduct(Product product) {
+
+        List<ProductComposition> compositions =
+                compositionRepository.findAllByProductId(product.getId());
+
+        if (compositions.isEmpty()) {
+            return new ProductionDTO(
+                    product.getId(),
+                    product.getName(),
+                    BigDecimal.ZERO
+            );
+        }
+
+        BigDecimal minProduction = compositions.stream()
+                .map(comp -> {
+                    BigDecimal stock = comp.getRawMaterial().getStockQuantity();
+                    BigDecimal needed = comp.getQuantityNeeded();
+
+                    return stock.divide(needed, 0, RoundingMode.DOWN);
+                })
+                .min(BigDecimal::compareTo)
+                .orElse(BigDecimal.ZERO);
+
+        return new ProductionDTO(
+                product.getId(),
+                product.getName(),
+                minProduction
+        );
+    }
     private ProductCompositionResponseDTO toDTO(ProductComposition productComposition) {
         return new ProductCompositionResponseDTO(
                 productComposition.getId(),
@@ -99,6 +148,9 @@ public class ProductionService {
                 productComposition.getRawMaterial().getName(),
                 productComposition.getQuantityNeeded()
         );
+
+
+
     }
 
 }
