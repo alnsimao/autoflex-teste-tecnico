@@ -13,7 +13,6 @@ import com.aln.autoflex.repository.ProductRepository;
 import com.aln.autoflex.repository.RawMaterialRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -102,6 +101,7 @@ public class ProductionService {
                 .toList();
     }
 
+    @Transactional
     public List<ProductionDTO> calculateProductionAvaliable(){
         List<Product> products = productRepository.findAll();
         return products.stream()
@@ -132,7 +132,6 @@ public class ProductionService {
                 })
                 .min(BigDecimal::compareTo)
                 .orElse(BigDecimal.ZERO);
-
         return new ProductionDTO(
                 product.getId(),
                 product.getName(),
@@ -148,9 +147,6 @@ public class ProductionService {
                 productComposition.getRawMaterial().getName(),
                 productComposition.getQuantityNeeded()
         );
-
-
-
     }
 
 }
