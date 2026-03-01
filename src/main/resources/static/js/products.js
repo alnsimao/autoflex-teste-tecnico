@@ -1,60 +1,85 @@
 const API_URL = "http://localhost:8080/products";
 
+
 async function loadProducts() {
-    try {
-        const response = await fetch(`${API_URL}/list`);
-        if (!response.ok) throw new Error("Erro ao buscar dados");
+    const response = await fetch(`${API_URL}/list`);
+    const data = await response.json();
 
-        const products = await response.json();
-        const tbody = document.querySelector("#productTable tbody");
-        tbody.innerHTML = "";
+    const tbody = document.querySelector("#productTable tbody");
+    tbody.innerHTML = "";
 
-        products.forEach(p => {
-            const row = `
-                <tr>
-                    <td>${p.id}</td>
-                    <td>${p.name}</td>
-                    <td>R$ ${parseFloat(p.price).toFixed(2)}</td>
-                </tr>`;
-            tbody.innerHTML += row;
-        });
-    } catch (e) {
-        console.error("Erro ao carregar produtos:", e);
-    }
+    data.forEach(p => {
+        tbody.innerHTML += `
+            <tr>
+                <td>${p.id}</td>
+                <td>${p.name}</td>
+                <td>R$ ${p.price}</td>
+               <td>
+                   <button onclick="prepareEdit(${p.id}, '${p.name}', ${p.price})" class="btn-edit" style="width: auto; background: #4f46e5; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; margin-right: 5px;">
+                       Editar
+                   </button>
+                   <button onclick="deleteProduct(${p.id})" class="btn-del" style="width: auto; background: #ef4444; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">
+                       Deletar
+                   </button>
+               </td>
+            </tr>`;
+    });
 }
 
 async function saveProduct() {
-    const nameInput = document.getElementById("pName");
-    const priceInput = document.getElementById("pPrice");
+    const id = document.getElementById("prodId").value; // Campo oculto que vamos add no HTML
+    const name = document.getElementById("pName").value;
+    const price = document.getElementById("pPrice").value;
 
-    if(!nameInput.value || !priceInput.value) {
-        alert("Preencha todos os campos!");
-        return;
-    }
+    const payload = { name, price: parseFloat(price) };
 
-    const payload = {
-        name: nameInput.value,
-        price: parseFloat(priceInput.value)
-    };
+    if (id) {
 
-    try {
-        const response = await fetch(`${API_URL}/`, {
+        await fetch(`${API_URL}/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+    } else {
+
+        await fetch(`${API_URL}/`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
+    }
 
-        if (response.ok) {
-            nameInput.value = "";
-            priceInput.value = "";
-            loadProducts();
-        } else {
-            alert("Erro ao salvar produto.");
-        }
-    } catch (e) {
-        alert("Servidor offline ou erro de conexão.");
+    clearForm();
+    loadProducts();
+}
+
+
+async function deleteProduct(id) {
+    if(confirm("Deseja excluir?")) {
+        await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+        loadProducts();
     }
 }
 
+
+function fillForm(id, name, price) {
+    document.getElementById("prodId").value = id;
+    document.getElementById("pName").value = name;
+    document.getElementById("pPrice").value = price;
+    document.querySelector("button[onclick='saveProduct()']").innerText = "Atualizar";
+}
+
+
+document.getElementById("btnSave").addEventListener("click", saveProduct);
+
+
+function clearForm() {
+    document.getElementById("prodId").value = "";
+    document.getElementById("pName").value = "";
+    document.getElementById("pPrice").value = "";
+    document.getElementById("formTitle").innerText = "Novo Produto";
+    document.getElementById("btnSave").innerText = "Salvar Produto";
+    document.getElementById("btnCancel").style.display = "none";
+}
 
 document.addEventListener("DOMContentLoaded", loadProducts);

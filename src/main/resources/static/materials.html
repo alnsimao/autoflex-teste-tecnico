@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoFlex - Produtos</title>
+    <title>AutoFlex - Materiais</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -14,33 +14,33 @@
 </nav>
 
 <div class="container">
-    <div class="header"><h1>Produtos</h1></div>
+    <div class="header"><h1>Matérias-Primas</h1></div>
     <div class="main-grid">
         <div class="card">
-            <h2 id="formTitle">Novo Produto</h2>
-            <input type="hidden" id="prodId">
+            <h2 id="formTitle">Novo Material</h2>
+            <input type="hidden" id="matId">
             <div class="form-group">
-                <label>NOME DO PRODUTO</label>
-                <input type="text" id="pName" placeholder="Ex: Cadeira de Aço">
+                <label>NOME DO MATERIAL</label>
+                <input type="text" id="mName" placeholder="Ex: Aço 1020">
             </div>
             <div class="form-group">
-                <label>PREÇO (R$)</label>
-                <input type="number" id="pPrice" step="0.01" placeholder="0.00">
+                <label>ESTOQUE ATUAL</label>
+                <input type="number" id="mStock" step="0.01" placeholder="0.00">
             </div>
-            <button id="btnSave" onclick="saveProduct()">Salvar Produto</button>
+            <button id="btnSave" onclick="saveMaterial()">Salvar Material</button>
             <button id="btnCancel" onclick="clearForm()" style="background:#6b7280; display:none; margin-top:10px">Cancelar Edição</button>
         </div>
         <div class="card">
-            <h2>Cadastrados</h2>
+            <h2>Estoque</h2>
             <div class="table-res">
-                <table id="productTable">
-                    <thead><tr><th>ID</th><th>NOME</th><th>PREÇO</th><th>AÇÕES</th></tr></thead>
+                <table id="materialTable">
+                    <thead><tr><th>ID</th><th>NOME</th><th>QUANTIDADE</th><th>AÇÕES</th></tr></thead>
                     <tbody></tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
-<script src="js/products.js"></script>
+<script src="js/materials.js"></script>
 </body>
 </html>

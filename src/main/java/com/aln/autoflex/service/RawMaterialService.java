@@ -10,7 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-
+import java.util.List;
 
 
 @Service
@@ -45,6 +45,13 @@ public class RawMaterialService {
     public RawMaterialResponseDTO findRawMaterialById(Long id) {
         RawMaterial material = rawMaterialRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Raw Material not found"));
         return toDTO(material);
+    }
+    public List<RawMaterialResponseDTO> findAllRawMaterials() {
+       return rawMaterialRepository.
+               findAll()
+               .stream()
+               .map(this::toDTO)
+               .toList();
     }
     private RawMaterialResponseDTO toDTO(RawMaterial rawMaterial) {
         return new RawMaterialResponseDTO(
