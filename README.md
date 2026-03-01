@@ -1,172 +1,107 @@
-🚀 AutoFlex - Gestão de Produção Industrial
+AutoFlex - Gestão de Produção Industrial
 
-Esse é um código de um teste técnico que foi requisitado.
+Esse é o código de um teste técnico.
 
-O AutoFlex é um sistema de gestão voltado para indústrias que precisam controlar:
 
-📦 Cadastro de produtos
+O AutoFlex é um sistema de gestão para indústrias que precisam controlar produtos, matérias-primas e calcular automaticamente a viabilidade de produção com base no estoque disponível.
 
-🛠️ Cadastro de matérias-primas
 
-📊 Controle de estoque
+TECNOLOGIAS UTILIZADAS:
 
-🧮 Cálculo de viabilidade de produção com base no estoque disponível
-
-O sistema permite calcular automaticamente quantos itens de cada produto podem ser fabricados com os insumos atualmente disponíveis.
-
-🛠️ Tecnologias Utilizadas
-🔙 Backend
-
+Back-end e Database:
 Java 17
-
 Spring Boot 3
-
-Spring Data JPA
-
-Hibernate
-
+Spring Data JPA / Hibernate
+PostgreSQL
+Lombok
 Jakarta Validation
 
-Lombok
-
-🗄️ Banco de Dados
-
-PostgreSQL
-
-🎨 Frontend
-
+Frontend:
 HTML5
-
 CSS3
+JavaScript (Padrão)
 
-JavaScript (Vanilla)
+Arquitetura e Modelagem:
+Composição de Produtos (N:N com atributo)
 
-🏗️ Modelagem de Dados e Performance
+Foi utilizada uma tabela associativa product_compositions para permitir o atributo:
+quantity_needed → quantidade necessária de cada insumo por produto
 
-A arquitetura do banco foi projetada visando integridade, precisão e alta performance.
+Regras implementadas:
+Chave primária composta (product_id, raw_material_id)
 
-1️⃣ Relacionamento Muitos-para-Muitos (N:N) com Atributo
+ON DELETE CASCADE para produtos
 
-Para a composição dos produtos, foi utilizada a tabela associativa:
+ON DELETE RESTRICT para matérias-primas
 
-product_compositions
+Performance:
 
-Diferente de um @ManyToMany convencional, essa abordagem permite armazenar o atributo:
+Índices criados para otimização:
 
-quantity_needed → Quantidade necessária de cada insumo por produto.
+idx_products_price (price DESC)
 
-🔐 Integridade
+idx_raw_materials_name
 
-Chave Primária Composta: (product_id, raw_material_id)
-→ Impede duplicidade de vínculos.
+idx_composition_product
 
-ON DELETE CASCADE para produtos.
+Endpoints Principais:
 
-ON DELETE RESTRICT para matérias-primas.
+Produtos — /products:
 
-2️⃣ Otimização com Índices
+POST /products
 
-Para melhorar a performance das consultas:
+GET /products/{id}
 
-idx_products_price → Índice B-Tree em price DESC
-(Sugestão instantânea de produção por valor)
+GET /products/list
 
-idx_raw_materials_name → Acelera buscas textuais
+PUT /products/{id}
 
-idx_composition_product → Otimiza JOINs no cálculo de disponibilidade
+DELETE /products/{id}
 
-3️⃣ Precisão Numérica
+ Matérias-Primas — /materials
 
-Utilização de:
+POST /materials
 
-DECIMAL(15,4)
+GET /materials/{id}
 
-Garantindo precisão adequada para:
+GET /materials/list
 
-Gramas
+PUT /materials/{id}
 
-Mililitros
+DELETE /materials/{id}
 
-Produção industrial de alta precisão
+Composição — /composition
 
+POST /composition
 
-📡 Endpoints da API
-📦 Produtos — /products
-Método	Endpoint	Descrição
-POST	/products	Cadastra novo produto
-GET	/products/{id}	Busca produto por ID
-GET	/products/list	Lista todos os produtos
-PUT	/products/{id}	Atualiza produto
-DELETE	/products/{id}	Remove produto
-🛠️ Matérias-Primas — /materials
-Método	Endpoint	Descrição
-POST	/materials	Cadastra nova matéria-prima
-GET	/materials/{id}	Busca insumo por ID
-GET	/materials/list	Lista todos os insumos
-PUT	/materials/{id}	Atualiza insumo/estoque
-DELETE	/materials/{id}	Remove insumo
-🔗 Composição e Produção — /composition
-Método	Endpoint	Descrição
-POST	/composition	Associa insumo a produto (RF007)
-GET	/composition/{id}	Busca detalhe do vínculo
-GET	/composition/list?productId={id}	Lista insumos de um produto
-PUT	/composition/{id}	Atualiza quantidade necessária
-DELETE	/composition/{id}	Remove insumo da receita
-GET	/composition/available	Calcula produção possível (RF008)
+GET /composition/{id}
 
+GET /composition/list?productId={id}
 
-🎨 Interface Gráfica
+PUT /composition/{id}
 
-A interface foi desenvolvida com foco em clareza e usabilidade.
+DELETE /composition/{id}
 
-🎨 Paleta principal:
-#4f46e5 (tons de azul)
+GET /composition/available → Calcula produção possível (RF008)
 
-Componentes:
-
-📦 Cadastro de Produtos
-
-🔗 Associação de Materiais (CRUD - RF007)
-
-📊 Visualização de Produção Disponível (RF008)
-
-🧾 Cards padronizados para organização visual
-
-▶️ Como Executar o Projeto
-1️⃣ Configurar o Banco
-
-Configure o PostgreSQL no arquivo:
-
-application.properties
-
-Exemplo:
-
+Como Executar:
+1️⃣Configure o PostgreSQL no application.properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/autoflex
 spring.datasource.username=postgres
 spring.datasource.password=senha
 spring.jpa.hibernate.ddl-auto=update
-2️⃣ Rodar o Backend
+2️⃣ Rode o backend
 ./mvnw spring-boot:run
+3️⃣ Abra o index.html no navegador
 
-ou execute pela sua IDE.
 
-3️⃣ Abrir o Frontend
+Interface do Sistema:
 
-Abra o arquivo:
+Tela de Produtos e Composição
+![Tela Produtos](images/produtos.png)
 
-index.html
+Tela de Matérias-Primas
+![Tela Materiais](images/materiais.png)
 
-no navegador.
-
-📌 Funcionalidades Principais
-
-✔️ Cadastro completo de produtos
-
-✔️ Controle de matérias-primas
-
-✔️ Gestão de estoque
-
-✔️ Cálculo automático de produção possível
-
-✔️ Arquitetura otimizada para performance
-
+Testes da API (Postman)
+![Postman](images/postman.png)
