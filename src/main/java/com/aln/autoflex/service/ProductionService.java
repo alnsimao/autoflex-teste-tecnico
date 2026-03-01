@@ -94,7 +94,7 @@ public class ProductionService {
     }
 
     @Transactional
-    public List<ProductCompositionResponseDTO> findByProductId(Long productId) {
+    public List<ProductCompositionResponseDTO> findAll(Long productId) {
         return compositionRepository.findAllByProductId(productId)
                 .stream()
                 .map(this::toDTO)

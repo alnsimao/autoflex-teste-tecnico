@@ -2,45 +2,75 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoFlex - Produtos</title>
+    <title>AutoFlex - Gestão</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <nav>
-    <a href="index.html"> Produtos</a>
-    <a href="materials.html"> Matérias-Primas</a>
+    <a href="index.html">📦 PRODUTOS</a>
+    <a href="materials.html">🛠️ MATÉRIAS-PRIMAS</a>
 </nav>
 
 <div class="container">
-    <div class="header"><h1>Produtos</h1></div>
     <div class="main-grid">
+
         <div class="card">
-            <h2 id="formTitle">Novo Produto</h2>
+            <h2 id="formTitle">📦 Novo Produto</h2>
             <input type="hidden" id="prodId">
             <div class="form-group">
                 <label>NOME DO PRODUTO</label>
-                <input type="text" id="pName" placeholder="Ex: Cadeira de Aço">
+                <input type="text" id="pName" placeholder="Ex: Cadeira Luxo">
             </div>
             <div class="form-group">
                 <label>PREÇO (R$)</label>
                 <input type="number" id="pPrice" step="0.01" placeholder="0.00">
             </div>
-            <button id="btnSave" onclick="saveProduct()">Salvar Produto</button>
-            <button id="btnCancel" onclick="clearForm()" style="background:#6b7280; display:none; margin-top:10px">Cancelar Edição</button>
+            <button id="btnSave" onclick="addProduct()">Salvar Produto</button>
+            <button id="btnCancel" onclick="clearForm()" style="display:none; background:#666; margin-top:5px">Cancelar</button>
         </div>
+
         <div class="card">
-            <h2>Cadastrados</h2>
-            <div class="table-res">
-                <table id="productTable">
-                    <thead><tr><th>ID</th><th>NOME</th><th>PREÇO</th><th>AÇÕES</th></tr></thead>
-                    <tbody></tbody>
-                </table>
+            <h2 id="compTitle">🔗 Composição (RF007)</h2>
+            <input type="hidden" id="compId">
+            <div class="form-group">
+                <label>SELECIONE O PRODUTO</label>
+                <select id="selProduct" onchange="loadProductCompositions()"></select>
+            </div>
+            <div class="form-group">
+                <label>MATÉRIA-PRIMA</label>
+                <select id="selMaterial"></select>
+            </div>
+            <div class="form-group">
+                <label>QTD. NECESSÁRIA</label>
+                <input type="number" id="cQty" step="0.01" placeholder="Ex: 0.5">
+            </div>
+            <button onclick="saveComposition()">Vincular Material</button>
+
+            <table>
+                <thead><tr><th>Matéria</th><th>Qtd</th><th>Ações</th></tr></thead>
+                <tbody id="compTableBody"></tbody>
+            </table>
+        </div>
+
+        <div class="card card-producao">
+            <h2>🚀 Pode Produzir (RF008)</h2>
+            <div id="productionList">
+                <p style="font-size: 12px; color: #666;">Selecione ou vincule materiais para ver o cálculo.</p>
             </div>
         </div>
     </div>
+
+    <div class="card" style="min-height: auto;">
+        <h2>Produtos Cadastrados</h2>
+        <table>
+            <thead><tr><th>ID</th><th>NOME</th><th>PREÇO</th><th>AÇÕES</th></tr></thead>
+            <tbody id="prodTableBody"></tbody>
+        </table>
+    </div>
 </div>
+
 <script src="js/products.js"></script>
+<script src="js/composition.js"></script>
 </body>
 </html>
