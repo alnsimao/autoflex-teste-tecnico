@@ -9,8 +9,8 @@ O AutoFlex é um sistema de gestão para indústrias que precisam controlar prod
 TECNOLOGIAS UTILIZADAS:
 
 Back-end e Database:
-Java 17
-Spring Boot 3
+Java 21
+Spring Boot 
 Spring Data JPA / Hibernate
 PostgreSQL
 Lombok
@@ -105,3 +105,4 @@ Tela de Matérias-Primas
 
 Testes da API (Postman)
 ![Postman](images/postman.png)
+
