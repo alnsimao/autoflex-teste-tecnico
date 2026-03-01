@@ -100,3 +100,13 @@ spring.jpa.hibernate.ddl-auto=update
 2️⃣ Rode o backend
 ./mvnw spring-boot:run
 3️⃣ Abra o index.html no navegador
+
+
+📸 Interface do Sistema
+🛍️ Tela de Produtos e Composição
+![Tela Produtos](images/produtos.png)
+🏭 Tela de Matérias-Primas
+![Tela Materiais](images/materiais.png)
+🧪 Testes da API (Postman)
+![Postman](images/postman.png)
+
