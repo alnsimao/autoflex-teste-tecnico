@@ -1,6 +1,6 @@
 const API_URL = "http://localhost:8080/products";
 
-// @GetMapping("/list")
+
 async function getAllProducts() {
     const res = await fetch(`${API_URL}/list`);
     const data = await res.json();
@@ -20,7 +20,7 @@ async function getAllProducts() {
     });
 }
 
-// @PostMapping("/") ou @PutMapping("/{id}")
+
 async function addProduct() {
     const id = document.getElementById("prodId").value;
     const name = document.getElementById("pName").value;
@@ -42,7 +42,7 @@ async function addProduct() {
     }
 }
 
-// @DeleteMapping("/{id}")
+
 async function deleteProduct(id) {
     if (confirm("Excluir produto?")) {
         const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });

@@ -1,6 +1,6 @@
 const API_URL = "http://localhost:8080/materials";
 
-// 1. @GetMapping("/list")
+
 async function getAllRawMaterials() {
     try {
         const res = await fetch(`${API_URL}/list`);
@@ -23,7 +23,7 @@ async function getAllRawMaterials() {
     } catch (e) { console.error("Erro ao listar materiais:", e); }
 }
 
-// 2. @PostMapping("/") ou @PutMapping("/{id}")
+
 async function addRawMaterial() {
     const id = document.getElementById("matId").value;
     const name = document.getElementById("mName").value;
@@ -34,7 +34,7 @@ async function addRawMaterial() {
         return;
     }
 
-    // Payload conforme seu RawMaterialRequestDTO (name, stockQuantity)
+
     const payload = {
         name: name,
         stockQuantity: parseFloat(stockQuantity)
@@ -59,12 +59,12 @@ async function addRawMaterial() {
     } catch (e) { alert("Servidor offline!"); }
 }
 
-// 3. @DeleteMapping("/{id}")
+
 async function deleteRawMaterial(id) {
     if (confirm("Deseja realmente excluir este material?")) {
         try {
             const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
-            // Verifica status 204 (noContent) ou 200 (ok)
+
             if (res.status === 204 || res.ok) {
                 getAllRawMaterials();
             } else {
@@ -74,7 +74,7 @@ async function deleteRawMaterial(id) {
     }
 }
 
-// Funções de Interface (Reset e Preencher)
+
 function fillForm(id, name, stock) {
     document.getElementById("matId").value = id;
     document.getElementById("mName").value = name;
@@ -95,5 +95,5 @@ function clearForm() {
     document.getElementById("btnCancel").style.display = "none";
 }
 
-// Inicia ao carregar a página
+
 document.addEventListener("DOMContentLoaded", getAllRawMaterials);

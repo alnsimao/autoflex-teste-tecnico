@@ -15,18 +15,18 @@ async function initComposition() {
 
 // CORREÇÃO DO EDITAR: Preenche o formulário
 function fillCompForm(id, prodId, matId, qty) {
-    document.getElementById("compId").value = id; // ID oculto para o PUT
+    document.getElementById("compId").value = id;
     document.getElementById("selProduct").value = prodId;
     document.getElementById("selMaterial").value = matId;
     document.getElementById("cQty").value = qty;
 
     document.getElementById("compTitle").innerText = "📝 Editando Vínculo";
     document.getElementById("btnCancelComp").style.display = "block";
-    // Rola para o topo do card para o usuário ver que mudou
+
     document.getElementById("compTitle").scrollIntoView({ behavior: 'smooth' });
 }
 
-// CORREÇÃO DO RF008: Mostra a produção disponível
+
 async function loadAvailableProduction() {
     try {
         const res = await fetch(`${COMP_URL}/available`);
@@ -50,7 +50,7 @@ async function loadAvailableProduction() {
     } catch (e) { console.error("Erro RF008:", e); }
 }
 
-// RF007 - LISTAR VÍNCULOS
+
 async function loadProductCompositions() {
     const productId = document.getElementById("selProduct").value;
     const tbody = document.getElementById("compTableBody");
@@ -85,7 +85,7 @@ async function saveComposition() {
         quantityNeeded: parseFloat(document.getElementById("cQty").value)
     };
 
-    // Lógica do CRUD: Se tem ID é PUT, se não é POST
+
     const method = id ? 'PUT' : 'POST';
     const url = id ? `${COMP_URL}/${id}` : `${COMP_URL}/`;
 
