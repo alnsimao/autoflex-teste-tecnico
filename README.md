@@ -1,4 +1,4 @@
-🚀 AutoFlex - Gestão de Produção Industrial
+AutoFlex - Gestão de Produção Industrial
 
 Este projeto foi desenvolvido como teste técnico.
 
@@ -52,8 +52,8 @@ idx_raw_materials_name
 
 idx_composition_product
 
-📡 Endpoints Principais
-📦 Produtos — /products
+Endpoints Principais
+ Produtos — /products
 
 POST /products
 
@@ -65,7 +65,7 @@ PUT /products/{id}
 
 DELETE /products/{id}
 
-🛠️ Matérias-Primas — /materials
+Matérias-Primas — /materials
 
 POST /materials
 
@@ -77,7 +77,7 @@ PUT /materials/{id}
 
 DELETE /materials/{id}
 
-🔗 Composição — /composition
+Composição — /composition
 
 POST /composition
 
@@ -109,4 +109,5 @@ spring.jpa.hibernate.ddl-auto=update
 ![Tela Materiais](images/materiais.png)
 🧪 Testes da API (Postman)
 ![Postman](images/postman.png)
+
 
