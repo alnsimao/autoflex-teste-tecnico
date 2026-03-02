@@ -4,8 +4,9 @@ Este projeto foi desenvolvido como teste técnico.
 
 O AutoFlex é um sistema de gestão para indústrias que precisam controlar produtos, matérias-primas e calcular automaticamente a viabilidade de produção com base no estoque disponível.
 
-🛠️ Tecnologias Utilizadas
-🔙 Back-end & Database
+Tecnologias Utilizadas:
+
+Back-end & Database:
 
 Java 21
 
@@ -19,7 +20,7 @@ Lombok
 
 Jakarta Validation
 
-🎨 Frontend
+Frontend:
 
 HTML5
 
@@ -27,14 +28,15 @@ CSS3
 
 JavaScript (Vanilla)
 
-🏗️ Arquitetura e Modelagem
-🔹 Composição de Produtos (N:N com atributo)
+Arquitetura e Modelagem
+
+ Composição de Produtos (N:N com atributo):
 
 Foi utilizada uma tabela associativa product_compositions para permitir o atributo:
 
 quantity_needed → quantidade necessária de cada insumo por produto
 
-🔐 Regras Implementadas
+Regras Implementadas:
 
 Chave primária composta: (product_id, raw_material_id)
 
@@ -42,7 +44,7 @@ ON DELETE CASCADE para produtos
 
 ON DELETE RESTRICT para matérias-primas
 
-⚡ Performance
+Performance:
 
 Índices criados para otimização:
 
@@ -52,8 +54,9 @@ idx_raw_materials_name
 
 idx_composition_product
 
-Endpoints Principais
- Produtos — /products
+Endpoints Principais:
+
+Produtos — /products
 
 POST /products
 
@@ -109,5 +112,6 @@ spring.jpa.hibernate.ddl-auto=update
 ![Tela Materiais](images/materiais.png)
 🧪 Testes da API (Postman)
 ![Postman](images/postman.png)
+
 
 
