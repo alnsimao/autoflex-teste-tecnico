@@ -68,9 +68,9 @@ async function loadProductCompositions() {
                     <td>${c.quantityNeeded}</td>
                     <td style="display:flex; gap:5px;">
                         <button onclick="fillCompForm(${c.id}, ${c.productId}, ${c.rawMaterialId}, ${c.quantityNeeded})"
-                                style="background:#f59e0b; border:none; border-radius:4px; cursor:pointer; padding:5px;">✏️</button>
+                                style="background:#f59e0b; border:none; border-radius:4px; cursor:pointer; padding:5px;">Editar</button>
                         <button onclick="deleteComp(${c.id})"
-                                style="background:#ef4444; border:none; border-radius:4px; cursor:pointer; padding:5px;">🗑️</button>
+                                style="background:#ef4444; border:none; border-radius:4px; cursor:pointer; padding:5px;">Deletar</button>
                     </td>
                 </tr>`;
         });
